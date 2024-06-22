@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profile Submission</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 500px;
+            transform: scale(0.8);
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #4cae4c;
+        }
+        /* Hidden popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            z-index: 9999;
+        }
+        .popup-success {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #5cb85c;
+        }
+        .popup-success .circle {
+            width: 50px;
+            height: 50px;
+            background: #5cb85c;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .popup-success .circle i {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Instagram Profile Submission</h2>
+        <div class="form-group">
+            <label for="instaId">Instagram ID</label>
+            <input type="text" id="instaId" required>
+        </div>
+        <div class="form-group">
+            <label for="followers">Followers</label>
+            <input type="number" id="followers" required>
+        </div>
+        <div class="form-group">
+            <label for="likes">Average Likes on Latest 3 Posts</label>
+            <input type="number" id="likes" required>
+        </div>
+        <div class="form-group">
+            <label for="niche">Niche</label>
+            <input type="text" id="niche" required>
+        </div>
+        <div class="form-group">
+            <label for="storyViews">Views on Last Story</label>
+            <input type="number" id="storyViews" required>
+        </div>
+        <div class="form-group">
+            <label for="rateStory">Rate for per Story Mention</label>
+            <input type="number" id="rateStory" required>
+        </div>
+        <div class="form-group">
+            <label for="ratePost">Rate for per Post Collaboration</label>
+            <input type="number" id="ratePost" required>
+        </div>
+        <div class="form-group">
+            <label for="instaLink">Link to your Account</label>
+            <input type="url" id="instaLink" required>
+        </div>
+        <div class="form-group">
+            <label for="contactNumber">Contact Number (optional)</label>
+            <input type="text" id="contactNumber">
+        </div>
+        <div class="form-group">
+            <button onclick="submitProfile()">Submit</button>
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup" id="successPopup">
+        <div class="popup-success">
+            <div class="circle">
+                <i class="fas fa-check"></i>
+            </div>
+            <p>Profile submitted successfully!</p>
+        </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWbEeAq144LXyTj05FmeR6lFCkbqxvFSw",
+            authDomain: "instaad-b1570.firebaseapp.com",
+            databaseURL: "https://instaad-b1570-default-rtdb.firebaseio.com",
+            projectId: "instaad-b1570",
+            storageBucket: "instaad-b1570.appspot.com",
+            messagingSenderId: "1074941761640",
+            appId: "1:1074941761640:web:ce227d01ebdccc8f0643dd",
+            measurementId: "G-DZD3JXC0VB"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function sanitizeId(id) {
+            // Replace characters that are not allowed in Firebase keys
+            return id.replace(/[.#$[\]/]/g, '(dot)');
+        }
+
+        function submitProfile() {
+            var instaId = document.getElementById('instaId').value;
+            var followers = document.getElementById('followers').value;
+            var likes = document.getElementById('likes').value;
+            var niche = document.getElementById('niche').value;
+            var storyViews = document.getElementById('storyViews').value;
+            var rateStory = document.getElementById('rateStory').value;
+            var ratePost = document.getElementById('ratePost').value;
+            var instaLink = document.getElementById('instaLink').value;
+            var contactNumber = document.getElementById('contactNumber').value;
+
+            instaId = sanitizeId(instaId);
+
+            if (instaId && followers && likes && niche && storyViews && rateStory && ratePost && instaLink) {
+                firebase.database().ref('profiles/' + instaId).set({
+                    followers: followers,
+                    likes: likes,
+                    niche: niche,
+                    storyViews: storyViews,
+                    rateStory: rateStory,
+                    ratePost: ratePost,
+                    instaLink: instaLink,
+                    contactNumber: contactNumber
+                }).then(function() {
+                    document.getElementById('successPopup').style.display = 'block';
+                    setTimeout(function() {
+                        window.location.href = "index.html";
+                    }, 2000); // Redirect after 2 seconds
+                }).catch(function(error) {
+                    console.error('Error submitting profile: ', error);
+                });
+            } else {
+                alert('Please fill in all required fields');
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profiles</title>
+  <style>
+      body {
+          font-family: 'Arial', sans-serif;
+          background: #f4f4f4;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-height: 100vh;
+      }
+    
+
+      .loader {
+          position: absolute;
+          top: 40%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border: 8px solid #f3f3f3;
+          border-top: 8px solid #5cb85c;
+          border-radius: 50%;
+          width: 80px;
+          height: 80px;
+          animation: spin 2s linear infinite;
+          margin: 50px auto;
+      }
+
+      @keyframes spin {
+          0% {
+              transform: rotate(0deg);
+          }
+
+          100% {
+              transform: rotate(360deg);
+          }
+      }
+
+      .header {
+          display: flex;
+          justify-content: space-between;
+          background: #5cb85c;
+          width: 100%;
+          height: fit-content;
+          padding: 5px;
+          color: #fff;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          position: fixed;
+          top: 0;
+          margin-bottom: 100px;
+          z-index: 999;
+          flex-wrap: wrap; /* Allow items to wrap */
+        flex-direction: row;
+        align-items: self-start;
+      }
+     .header h1 {
+        font-size: 18px;
+        text-align: center;
+      }
+     .header a {
+        margin-top: 10px;
+      }
+
+      .header div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 10px;
+          flex-grow: 1; /* Grow to take remaining space */
+      }
+
+      .header select,
+      .header button {
+          margin: 5px;
+          padding: 5px;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          flex-grow: 1; /* Grow to take remaining space */
+      }
+
+      .header select {
+          font-size: 16px;
+          max-width: 150px; /* Limit width for smaller screens */
+      }
+
+      .header button {
+          background-color: #4caf50;
+          color: white;
+      }
+
+      .header button:hover {
+          background-color: #45a049;
+      }
+
+      #head-left {
+          display: flex;
+          justify-content: space-around;
+      }
+
+      #n-link {
+          display: flex;
+          text-decoration: none;
+          color: white;
+          border: 1px solid white;
+          margin-left: 50px;
+          margin-right: 50px;
+          border-radius: 10px;
+          padding: 5px;
+      }
+
+      #n-link:hover {
+          background-color: rgba(225, 225, 225, 0.3);
+      }
+
+      .profiles-container {
+          width: 90%;
+          margin: 100px auto 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+
+      .card {
+          background: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          margin: 10px 0;
+          width: 90%;
+          transition: transform 0.2s;
+      }
+    #sort{
+      transform: scale(1);
+      margin-bottom: -80px;
+    }
+    label{
+      transform: scale(1);
+      margin-top: 100px;
+    }
+
+      .card:hover {
+          transform: scale(1.02);
+      }
+
+      .card-content {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+      }
+
+      .card-left {
+          display: flex;
+          flex-direction: column;
+      }
+
+      .card-right {
+          margin-top: 27px;
+          display: flex;
+          flex-direction: column;
+          text-align: right;
+          justify-content: right;
+      }
+
+      .card-link {
+          text-align: center;
+          margin-top: 20px;
+          text-decoration: none;
+          background-color: black;
+          color: white;
+          border-radius: 10px;
+          padding: 2px;
+      }
+
+      .card-content h3 {
+          margin: 0 0 10px;
+          color: #333;
+      }
+
+      .card-content p {
+          margin: 5px 0;
+          color: #666;
+      }
+
+      .card-content p span {
+          font-weight: bold;
+      }
+
+      .followers {
+          color: #3498db;
+      } /* Blue */
+
+      .likes {
+          color: #2ecc71;
+      } /* Green */
+
+      .niche {
+          color: #9b59b6;
+      } /* Purple */
+
+      .story-views {
+          color: #e74c3c;
+      } /* Red */
+
+      .contact-number {
+          color: #f1c40f;
+      } /* Yellow */
+
+      .rate-story {
+          color: #ff5733;
+          margin-top: 23px;
+      } /* Orange */
+
+      .rate-post {
+          color: #8e44ad;
+          margin-top: 28px;
+      } /* Purple */
+
+    @media only screen and (max-width: 768px) {
+      #sort{
+        transform: scale(1);
+        margin-bottom: 0px;
+      }
+      label{
+        transform: scale(1);
+        margin-top: 70px;
+      }
+     .header {
+        flex-direction: row;
+        align-items: self-start;
+      }
+     .header h1 {
+        font-size: 18px;
+        text-align: center;
+      }
+     .header a {
+        transform: scale(0.8);
+      }
+      #n-link {
+        margin-left: 0;
+        margin-right: 0;
+      }
+     .profiles-container {
+        width: 100%;
+        margin: 20px auto;
+      }
+     .card {
+        flex-direction: column;
+        align-items: center;
+      }
+     .card-content {
+        flex-direction: column;
+      }
+     .card-left {
+        margin-bottom: 20px;
+      }
+     .card-right {
+        text-align: center;
+      }
+    }
+
+    /* Media query for even smaller screens */
+    @media only screen and (max-width: 480px) {
+     .header h1 {
+        font-size: 14px;
+      }
+     .header a {
+        transform: scale(0.6);
+      }
+     .card {
+        padding: 10px;
+      }
+     .card-content {
+        font-size: 14px;
+      }
+      #sort{
+        transform: scale(0.7);
+        margin-bottom: -20px;
+      }
+      label{
+        transform: scale(0.7);
+        margin-top: 50px;
+      }
+      .loader {
+          position: absolute;
+          top: 35%;
+          left: 35%;
+          transform: translate(-50%, -50%);
+          border: 8px solid #f3f3f3;
+          border-top: 8px solid #5cb85c;
+          border-radius: 50%;
+          width: 80px;
+          height: 80px;
+          animation: spin 2s linear infinite;
+          margin: 50px auto;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  
+  <div class="header">
+      <h1>&nbsp;&nbsp;&nbsp;Instagram Profiles</h1>
+      
+         
+           <a id="n-link" href="form.html">ADD your profile</a>
+          
+       
+      
+  </div>
+
+  <label for="sort">Sort by:</label>
+   <select id="sort">
+        <option onselect="sort(this.value)" value="followers">Select</option>
+        <option onselect="sort(this.value)" value="followers">Followers</option>
+        <option onselect="sort(this.value)" value="likes">Average Likes</option>
+        <option onselect="sort(this.value)" value="storyViews">Story Views</option>
+    </select>
+
+    <div class="profiles-container" id="profilesContainer">
+      <div class="loader"></div>
+        <!-- Profiles will be dynamically inserted here -->
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+      function sort(sortBy) {
+          const profilesContainer = document.getElementById('profilesContainer');
+          profilesContainer.innerHTML = '<div class="loader"></div>'; // Show loader
+          firebase.database().ref('profiles').once('value', function(snapshot) {
+              const profiles = [];
+              snapshot.forEach(function(childSnapshot) {
+                  const profile = childSnapshot.val();
+                  profile.instaId = decodeId(childSnapshot.key);
+                  profiles.push(profile);
+              });
+
+              // Sort profiles based on the selected criteria
+              profiles.sort((a, b) => b[sortBy] - a[sortBy]);
+
+              // Render sorted profiles
+              profilesContainer.innerHTML = ''; // Clear loader
+              profiles.forEach(profile => {
+                  const card = createCard(profile);
+                  profilesContainer.innerHTML += card;
+              });
+          });
+      }
+ 
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWbEeAq144LXyTj05FmeR6lFCkbqxvFSw",
+            authDomain: "instaad-b1570.firebaseapp.com",
+            databaseURL: "https://instaad-b1570-default-rtdb.firebaseio.com",
+            projectId: "instaad-b1570",
+            storageBucket: "instaad-b1570.appspot.com",
+            messagingSenderId: "1074941761640",
+            appId: "1:1074941761640:web:ce227d01ebdccc8f0643dd",
+            measurementId: "G-DZD3JXC0VB"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function decodeId(id) {
+            // Replace encoded characters with their original ones
+            return id.replace(/\(dot\)/g, '.');
+        }
+
+        function createCard(profile) {
+            return `
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-left">
+                            <h3>${decodeId(profile.instaId)}</h3>
+                            <p class="followers"><span>Followers:</span> ${profile.followers}</p>
+                            <p class="likes"><span>Average Likes:</span> ${profile.likes}</p>
+                            <p class="niche"><span>Niche:</span> ${profile.niche}</p>
+                            <p class="story-views"><span>Story Views:</span> ${profile.storyViews}</p>
+                            <p class="contact-number"><span>Contact Number:</span> ${profile.contactNumber || 'N/A'}</p>
+                        </div>
+                        <div class="card-right">
+                            <p class="rate-story"><span>Rate for per Story Mention:</span> ${profile.rateStory}</p>
+                            <p class="rate-post"><span>Rate for per Post Collaboration:</span> ${profile.ratePost}</p>
+                            <a class="card-link" href="${profile.instaLink}">Visit</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+      function loadProfiles(sortBy) {
+          const profilesContainer = document.getElementById('profilesContainer');
+          firebase.database().ref('profiles').once('value', function(snapshot) {
+              const profiles = [];
+              snapshot.forEach(function(childSnapshot) {
+                  const profile = childSnapshot.val();
+                  profile.instaId = decodeId(childSnapshot.key);
+                  profiles.push(profile);
+              });
+
+              // Sort profiles based on the selected criteria
+              profiles.sort((a, b) => b[sortBy] - a[sortBy]);
+
+              // Render sorted profiles
+              profilesContainer.innerHTML = '';
+              profiles.forEach(profile => {
+                  const card = createCard(profile);
+                  profilesContainer.innerHTML += card;
+              });
+          });
+      }
+
+      // Load profiles on page load, default sorting is by followers
+      window.onload = function() {
+          loadProfiles('followers');
+      };
+
+      // Listen for changes in the sort dropdown and reload profiles accordingly
+      document.getElementById('sort').addEventListener('change', function() {
+          const sortBy = this.value;
+          loadProfiles(sortBy);
+      });
+
+
+        function applyFilter() {
+            const filterBy = document.getElementById('filterBy').value;
+            loadProfiles(filterBy);
+        }
+
+        // Load all profiles on page load
+        window.onload = function() {
+            loadProfiles();
+        };
+    </script>
+</body>
+</html>
